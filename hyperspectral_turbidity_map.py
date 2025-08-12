@@ -2,15 +2,15 @@ import pandas as pd
 import os
 
 # Load your turbidity mapping CSV
-turbidity_csv_path = "/home/bmt.lamar.edu/bgautam3/deep neural network/SaltBarrier_image_turbidity.csv"  # <-- update if CSV is in different location
+turbidity_csv_path = "/home/bmt.lamar.edu/bgautam3/deep neural network/image_turbidity_mapping_july.csv"  # <-- update if CSV is in different location
 turbidity_df = pd.read_csv(turbidity_csv_path)
 
 
 # Base folder path (common prefix)
-base_folder = "/home/bmt.lamar.edu/bgautam3"
+base_folder = "/home/bmt.lamar.edu/bgautam3/SaltBarrierJuly/SB_HS_cropped_july/"
 
 # Band folders
-band_folders = ['SB_Band_27', 'SB_Band_29', 'SB_Band_31']
+band_folders = ['Band_27', 'Band_29', 'Band_31']
 
 # Store all data
 data = []
@@ -42,6 +42,6 @@ for band in band_folders:
 final_df = pd.DataFrame(data)
 
 # Save final mapping
-final_df.to_csv("SB_final_HS_image_turbidity_mapping.csv", index=False)
+final_df.to_csv("SB_final_HS_image_turbidity_mapping_july.csv", index=False)
 
 print("Done: CSV created.")

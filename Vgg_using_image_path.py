@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from sklearn.model_selection import train_test_split
 
 # PARAMETERS
-CSV_FILE = "/home/bmt.lamar.edu/bgautam3/deep neural network/SB_final_HS_image_turbidity_mapping.csv"  # use your generated CSV
+CSV_FILE = "/home/bmt.lamar.edu/bgautam3/deep neural network/SB_final_HS_image_turbidity_mapping_june.csv"  # use your generated CSV
 IMAGE_SIZE = (224, 224)
 BATCH_SIZE = 16
 EPOCHS = 20
@@ -85,10 +85,10 @@ for layer in base_model.layers:
 
 # Custom regression head
 #x = base_model.output
-x = base_model.get_layer('fc2').output
+x = base_model.get_layer('fc2').output # shape: (None, 4096)
 #x = Flatten()(x)
-x = Dense(512, activation='relu')(x)
-# x = Dropout(0.5)(x)  # regularization (optional)
+#x = Dense(512, activation= "relu")(x)
+#x = Dropout(0.1)(x)  # regularization (optional)
 x = Dense(1)(x)  # regression output (no activation)
 
 model = Model(inputs=base_model.input, outputs=x)
@@ -104,6 +104,35 @@ history = model.fit(
     epochs=EPOCHS,
     verbose=1
 )
+
+
+# ## using conv layer for feature extraction only and adding custom regression head
+# # Load pretrained VGG16 without top layers
+# base_model = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+# # Freeze base model (optional: unfreeze some layers later for fine-tuning)
+# for layer in base_model.layers:
+#     layer.trainable = False
+
+# # Add custom regression head
+# x = Flatten()(base_model.output)
+# # x = Dense(256, activation='relu')(x)
+# #x = Dropout(0.5)(x)
+# # x = Dense(64, activation='relu')(x)
+# output = Dense(1)(x)  # Single output for regression
+
+# model = Model(inputs=base_model.input, outputs=output)
+# # Compile model
+# model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
+
+# # 6. Train model
+# history = model.fit(
+#     X_train, y_train,
+#     validation_data=(X_val, y_val),
+#     batch_size=BATCH_SIZE,
+#     epochs=EPOCHS,
+#     verbose=1
+# )
 
 import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
@@ -133,3 +162,20 @@ plt.show()
 # Save to file
 plt.savefig("SB_HS_predicted_vs_true_turbidity.png", dpi=300)
 plt.close()
+
+
+# Predict on training set
+y_train_pred = model.predict(X_train).flatten()
+train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
+train_r2 = r2_score(y_train, y_train_pred)
+
+# Predict on validation set
+y_val_pred = model.predict(X_val).flatten()
+val_rmse = np.sqrt(mean_squared_error(y_val, y_val_pred))
+val_r2 = r2_score(y_val, y_val_pred)
+
+# Print results
+print(f"Training RMSE: {train_rmse:.4f}")
+print(f"Training R²: {train_r2:.4f}")
+print(f"Validation RMSE: {val_rmse:.4f}")
+print(f"Validation R²: {val_r2:.4f}")

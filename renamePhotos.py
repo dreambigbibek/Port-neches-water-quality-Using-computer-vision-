@@ -5,8 +5,8 @@ from datetime import datetime
 import shutil
 
 # === CONFIGURATION ===
-source_folder = "/home/bmt.lamar.edu/bgautam3/Saltwater Barrier Images/2. May 29- June 11/";
-destination_folder = "/home/bmt.lamar.edu/bgautam3/deep neural network/renamedPhotos";
+source_folder = "/home/bmt.lamar.edu/bgautam3/Saltwater Barrier Images/4. June 30- July 24/";
+destination_folder = "/home/bmt.lamar.edu/bgautam3/deep neural network/renamedPhotos2";
 
 # Create destination folder if it doesn't exist
 os.makedirs(destination_folder, exist_ok=True)
