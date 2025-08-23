@@ -2,6 +2,11 @@ venv/
 .venv/
 __pycache__
 venv/
+
 renamedPhotos/
+
 renamedPhotos2/
 RainfallData/
+
+combine_weather_data/Image_turbidity_map_saltwater_july/
+Image_turbidity_map_saltwater_july/

@@ -7,10 +7,10 @@ turbidity_df = pd.read_csv(turbidity_csv_path)
 
 
 # Base folder path (common prefix)
-base_folder = "/home/bmt.lamar.edu/bgautam3/SaltBarrierJuly/SB_HS_cropped_july/"
+base_folder = "/home/bmt.lamar.edu/bgautam3/SaltBarrierJuly/HS_SaltBarrier_output_july_noColormap/"
 
 # Band folders
-band_folders = ['Band_27', 'Band_29', 'Band_31']
+band_folders = ['Band_27']  # , 'Band_29', 'Band_31'
 
 # Store all data
 data = []
@@ -42,6 +42,6 @@ for band in band_folders:
 final_df = pd.DataFrame(data)
 
 # Save final mapping
-final_df.to_csv("SB_final_HS_image_turbidity_mapping_july.csv", index=False)
+final_df.to_csv("./combine_weather_data/SB_RawHS__turbidity_mapping_band27.csv", index=False)
 
 print("Done: CSV created.")
